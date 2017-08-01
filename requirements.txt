@@ -1,0 +1,7 @@
+click==6.7
+Flask==0.12.2
+gunicorn==19.7.1
+GDAL==2.1.0
+Pillow==4.2.1
+Shapely==1.5.17.post1
+numpy==1.13.1
