@@ -9,9 +9,10 @@ from util import get_mercator_projection, corner_to_extent
 
 
 class Dataset(object):
-    def __init__(self, file_path, resampling_method):
+    def __init__(self, file_path, resampling_method, memory):
         self.file_path = file_path
         self.resampling_method = resampling_method
+        self.memory = memory
         self.dataset = gdal.Open(file_path)
         self.cols = self.dataset.RasterXSize
         self.rows = self.dataset.RasterYSize
@@ -55,7 +56,7 @@ class Dataset(object):
         warp_options = gdal.WarpOptions(srcSRS=source_srs,
                                         dstSRS=target_srs,
                                         format="MEM",
-                                        warpMemoryLimit=1024,
+                                        warpMemoryLimit=self.memory,
                                         multithread=True,
                                         outputBounds=tile.corners,
                                         width=256,

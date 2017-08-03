@@ -5,15 +5,17 @@ from server import TileServer
 @click.argument('geospatial_file', nargs=1,
                 type=click.Path(exists=True, resolve_path=True))
 @click.option('-w', '--workers', default=1,
-              help="Number of workers (default=1)")
-@click.option('-p', '--port', default="8000",
-              help="Port to run the application (default=8000)")
+              help='Number of workers (default=1)')
+@click.option('-p', '--port', default='8000',
+              help='Port to run the application (default=8000)')
 @click.option('-r', '--resample', default='near',
               type=click.Choice(['near', 'bilinear', 'cubic', 'cubicspline',
                                  'lanczos', 'average', 'mode', 'max', 'min',
                                  'med', 'q1', 'q3']),
-              help="Resampling method (default=near)")
-def main(geospatial_file, workers, port, resample):
+              help='Resampling method (default=near)')
+@click.option('-m', '--memory', default=1024,
+              help='Memory allocated for the warp (default=1024)')
+def main(geospatial_file, workers, port, resample, memory):
     """ Starts the tile server """
     options = {
         'bind': '%s:%s' % ('127.0.0.1', port),
@@ -21,5 +23,6 @@ def main(geospatial_file, workers, port, resample):
     }
     TileServer.geospatial_file = geospatial_file
     TileServer.resampling_method = resample
+    TileServer.memory = memory
     TileServer(options).run()
 
