@@ -10,7 +10,7 @@ application = Flask(__name__)
 
 @application.route('/tiles/<int:z>/<int:x>/<int:y>.png')
 def serve_tiles(z, x, y):
-    dataset = Dataset(TileServer.geospatial_file)
+    dataset = Dataset(TileServer.geospatial_file, TileServer.resampling_method)
     tile = dataset.get_tile(z, x, y)
     return tile.render()
 
