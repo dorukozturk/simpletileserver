@@ -5,7 +5,7 @@ from PIL import Image
 from shapely.geometry import Polygon
 
 from tile import Tile
-from util import get_mercator_projection, corner_to_extent
+from util import get_mercator_projection, corner_to_extent, get_maximum_zoom_level
 
 
 class Dataset(object):
@@ -18,6 +18,7 @@ class Dataset(object):
         self.rows = self.dataset.RasterYSize
         self.number_of_bands = self.dataset.RasterCount
         self.extent = self.get_mercator_extent()
+        self.max_zoom_level = get_maximum_zoom_level(self.get_pixel_size())
 
     def get_corners(self):
         xmin, xres, xskew, ymax, yskew, yres  = self.dataset.GetGeoTransform()
@@ -25,6 +26,9 @@ class Dataset(object):
         ymin = ymax + (self.rows * yres)
 
         return xmin, ymin, xmax, ymax
+
+    def get_pixel_size(self):
+        return (self.extent[1][0] - self.extent[0][0]) / self.cols
 
     def get_source_projection(self):
         srs = osr.SpatialReference()

@@ -43,3 +43,12 @@ def corner_to_extent(corners):
               [corners[0], corners[1]]]
 
     return extent
+
+def get_maximum_zoom_level(pixel_size):
+    for i in range(1,30):
+        mercator_pixel_size = get_pixel_size(i)
+        if mercator_pixel_size <= pixel_size:
+            max_zoom = i + 1
+            break
+
+    return max_zoom
