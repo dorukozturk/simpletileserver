@@ -12,7 +12,7 @@
       <div id="map"></div>
       <script>
         var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
-        var layer = L.tileLayer('http://127.0.0.1:8000/tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1, attribution: ""});
+        var layer = L.tileLayer('http://127.0.0.1:{{port}}/tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1, attribution: ""});
         var point = new L.Point({{x}}, {{y}});
         var radius = 6378137;
         var latLng = L.Projection.SphericalMercator.unproject(point.divideBy(radius));

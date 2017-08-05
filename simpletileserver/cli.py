@@ -26,6 +26,6 @@ def main(geospatial_file, workers, port, resample, memory):
     }
     dataset = Dataset(geospatial_file, resample, memory)
     TileServer.dataset = dataset
-    render_map(dataset.center, dataset.max_zoom_level)
+    render_map(dataset.center, dataset.max_zoom_level, port)
     TileServer(options).run()
 

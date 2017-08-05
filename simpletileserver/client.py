@@ -3,7 +3,7 @@ import webbrowser
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 
-def render_map(center, max_zoom):
+def render_map(center, max_zoom, port):
 
     env = Environment(
         loader=PackageLoader('simpletileserver', 'templates'),
@@ -15,7 +15,8 @@ def render_map(center, max_zoom):
     html = template.render(x=center[0],
                            y=center[1],
                            max_zoom=max_zoom,
-                           zoom=int(max_zoom / 2))
+                           zoom=int(max_zoom / 2),
+                           port=port)
 
     temp= tempfile.NamedTemporaryFile(delete=False)
     path=temp.name+'.html'
