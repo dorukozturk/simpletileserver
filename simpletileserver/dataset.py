@@ -19,6 +19,13 @@ class Dataset(object):
         self.number_of_bands = self.dataset.RasterCount
         self.extent = self.get_mercator_extent()
         self.max_zoom_level = get_maximum_zoom_level(self.get_pixel_size())
+        self.center = self.get_center()
+
+    def get_center(self):
+        x = (self.extent[0][0] + self.extent[1][0]) / 2
+        y = (self.extent[0][1] + self.extent[2][1]) / 2
+
+        return x, y
 
     def get_corners(self):
         xmin, xres, xskew, ymax, yskew, yres  = self.dataset.GetGeoTransform()

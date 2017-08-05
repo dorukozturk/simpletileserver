@@ -3,17 +3,12 @@ from gunicorn.app.base import BaseApplication
 from gunicorn.six import iteritems
 from gunicorn.util import import_app
 
-from dataset import Dataset
-
 
 application = Flask(__name__)
 
 @application.route('/tiles/<int:z>/<int:x>/<int:y>.png')
 def serve_tiles(z, x, y):
-    dataset = Dataset(TileServer.geospatial_file,
-                      TileServer.resampling_method,
-                      TileServer.memory)
-    tile = dataset.get_tile(z, x, y)
+    tile = TileServer.dataset.get_tile(z, x, y)
     return tile.render()
 
 
@@ -31,4 +26,4 @@ class TileServer(BaseApplication):
             self.cfg.set(key.lower(), value)
 
     def load(self):
-        return self.application
+        return application

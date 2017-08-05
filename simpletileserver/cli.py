@@ -1,5 +1,8 @@
 import click
+from dataset import Dataset
 from server import TileServer
+from client import render_map
+
 
 @click.command()
 @click.argument('geospatial_file', nargs=1,
@@ -21,8 +24,8 @@ def main(geospatial_file, workers, port, resample, memory):
         'bind': '%s:%s' % ('127.0.0.1', port),
         'workers': workers
     }
-    TileServer.geospatial_file = geospatial_file
-    TileServer.resampling_method = resample
-    TileServer.memory = memory
+    dataset = Dataset(geospatial_file, resample, memory)
+    TileServer.dataset = dataset
+    render_map(dataset.center, dataset.max_zoom_level)
     TileServer(options).run()
 
