@@ -82,7 +82,7 @@ class Dataset(object):
         else:
             return array.astype('uint8')
 
-    
+
     def get_tile(self, z, x, y):
         tile = Tile(z, x, y)
         if self.intersects_with_tile(tile):
@@ -96,4 +96,3 @@ class Dataset(object):
         tile.image = image
 
         return tile
-
