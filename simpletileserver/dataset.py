@@ -78,6 +78,7 @@ class Dataset(object):
         return tile
 
     def format_array(self, array):
+        np.seterr(divide='ignore')
         if np.issubdtype(array.dtype, np.integer):
             array *= 255 / array.max()
         else:
