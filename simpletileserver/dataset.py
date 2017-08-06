@@ -9,6 +9,7 @@ from util import get_mercator_projection, corner_to_extent, get_maximum_zoom_lev
 
 
 class Dataset(object):
+
     def __init__(self, file_path, resampling_method, memory):
         self.file_path = file_path
         self.resampling_method = resampling_method
@@ -90,6 +91,16 @@ class Dataset(object):
         else:
             return array.astype('uint8')
 
+    def get_alpha(self, array):
+        if self.number_of_bands > 1:
+            mask_array = array[0]
+        else:
+            mask_array = array
+
+        masked_array = np.where(mask_array == 0, 0, 255).astype('uint8')
+        alpha_image = Image.fromarray(masked_array)
+
+        return alpha_image
 
     def get_tile(self, z, x, y):
         tile = Tile(z, x, y)
@@ -98,6 +109,8 @@ class Dataset(object):
             array = reprojected_tile.ReadAsArray()
             formatted_array = self.format_array(array)
             image = Image.fromarray(formatted_array)
+            alpha_image = self.get_alpha(array)
+            image.putalpha(alpha_image)
         else:
             image = Image.new('RGBA', (256, 256), (255, 0, 0, 0))
 
